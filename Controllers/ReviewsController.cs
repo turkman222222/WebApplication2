@@ -10,23 +10,23 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class RecipesController : Controller
+    public class ReviewsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public RecipesController(ApplicationDbContext context)
+        public ReviewsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Recipes
+        // GET: Reviews
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Recipes.Include(r => r.Author).Include(r => r.Category);
+            var applicationDbContext = _context.Reviews.Include(r => r.Recipe);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Recipes/Details/5
+        // GET: Reviews/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,43 +34,42 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes
-                .Include(r => r.Author)
-                .Include(r => r.Category)
+            var review = await _context.Reviews
+                .Include(r => r.Recipe)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (recipe == null)
+            if (review == null)
             {
                 return NotFound();
             }
 
-            return View(recipe);
+            return View(review);
         }
 
-        // GET: Recipes/Create
+        // GET: Reviews/Create
         public IActionResult Create()
         {
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname");
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName");
+            ViewData["RecipeID"] = new SelectList(_context.Recipes, "ID", "ID");
             return View();
         }
 
-        // POST: Recipes/Create
+        // POST: Reviews/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,RecipeName,Discription,CategoryID,AuthorID,CookingTime,Image")] Recipe recipe)
+        public async Task<IActionResult> Create([Bind("ID,RecipeID,ReviewText,Rating")] Review review)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(recipe);
+                _context.Add(review);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
-            return View(recipe);
+            ViewData["RecipeID"] = new SelectList(_context.Recipes, "ID", "ID", review.RecipeID);
+            return View(review);
         }
 
-        // GET: Recipes/Edit/5
+        // GET: Reviews/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +77,23 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
+            var review = await _context.Reviews.FindAsync(id);
+            if (review == null)
             {
                 return NotFound();
             }
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
-            return View(recipe);
+            ViewData["RecipeID"] = new SelectList(_context.Recipes, "ID", "ID", review.RecipeID);
+            return View(review);
         }
 
-        // POST: Recipes/Edit/5
+        // POST: Reviews/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,RecipeName,Discription,CategoryID,AuthorID,CookingTime,Image")] Recipe recipe)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,RecipeID,ReviewText,Rating")] Review review)
         {
-            if (id != recipe.ID)
+            if (id != review.ID)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace WebApplication2.Controllers
             {
                 try
                 {
-                    _context.Update(recipe);
+                    _context.Update(review);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecipeExists(recipe.ID))
+                    if (!ReviewExists(review.ID))
                     {
                         return NotFound();
                     }
@@ -118,12 +118,11 @@ namespace WebApplication2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
-            return View(recipe);
+            ViewData["RecipeID"] = new SelectList(_context.Recipes, "ID", "ID", review.RecipeID);
+            return View(review);
         }
 
-        // GET: Recipes/Delete/5
+        // GET: Reviews/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,36 +130,35 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes
-                .Include(r => r.Author)
-                .Include(r => r.Category)
+            var review = await _context.Reviews
+                .Include(r => r.Recipe)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (recipe == null)
+            if (review == null)
             {
                 return NotFound();
             }
 
-            return View(recipe);
+            return View(review);
         }
 
-        // POST: Recipes/Delete/5
+        // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe != null)
+            var review = await _context.Reviews.FindAsync(id);
+            if (review != null)
             {
-                _context.Recipes.Remove(recipe);
+                _context.Reviews.Remove(review);
             }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecipeExists(int id)
+        private bool ReviewExists(int id)
         {
-            return _context.Recipes.Any(e => e.ID == id);
+            return _context.Reviews.Any(e => e.ID == id);
         }
     }
 }
-

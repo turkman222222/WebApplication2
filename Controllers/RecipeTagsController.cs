@@ -10,23 +10,23 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class RecipesController : Controller
+    public class RecipeTagsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public RecipesController(ApplicationDbContext context)
+        public RecipeTagsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Recipes
+        // GET: RecipeTags
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Recipes.Include(r => r.Author).Include(r => r.Category);
+            var applicationDbContext = _context.RecipeTags.Include(r => r.Teg);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Recipes/Details/5
+        // GET: RecipeTags/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,43 +34,42 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes
-                .Include(r => r.Author)
-                .Include(r => r.Category)
+            var recipeTag = await _context.RecipeTags
+                .Include(r => r.Teg)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (recipe == null)
+            if (recipeTag == null)
             {
                 return NotFound();
             }
 
-            return View(recipe);
+            return View(recipeTag);
         }
 
-        // GET: Recipes/Create
+        // GET: RecipeTags/Create
         public IActionResult Create()
         {
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname");
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName");
+            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Id");
             return View();
         }
 
-        // POST: Recipes/Create
+        // POST: RecipeTags/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,RecipeName,Discription,CategoryID,AuthorID,CookingTime,Image")] Recipe recipe)
+        public async Task<IActionResult> Create([Bind("ID,PecipeID,TagId")] RecipeTag recipeTag)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(recipe);
+                _context.Add(recipeTag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
-            return View(recipe);
+            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Id", recipeTag.TagId);
+            return View(recipeTag);
         }
 
-        // GET: Recipes/Edit/5
+        // GET: RecipeTags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +77,23 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
+            var recipeTag = await _context.RecipeTags.FindAsync(id);
+            if (recipeTag == null)
             {
                 return NotFound();
             }
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
-            return View(recipe);
+            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Id", recipeTag.TagId);
+            return View(recipeTag);
         }
 
-        // POST: Recipes/Edit/5
+        // POST: RecipeTags/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,RecipeName,Discription,CategoryID,AuthorID,CookingTime,Image")] Recipe recipe)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,PecipeID,TagId")] RecipeTag recipeTag)
         {
-            if (id != recipe.ID)
+            if (id != recipeTag.ID)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace WebApplication2.Controllers
             {
                 try
                 {
-                    _context.Update(recipe);
+                    _context.Update(recipeTag);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecipeExists(recipe.ID))
+                    if (!RecipeTagExists(recipeTag.ID))
                     {
                         return NotFound();
                     }
@@ -118,12 +118,11 @@ namespace WebApplication2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
-            return View(recipe);
+            ViewData["TagId"] = new SelectList(_context.Tags, "Id", "Id", recipeTag.TagId);
+            return View(recipeTag);
         }
 
-        // GET: Recipes/Delete/5
+        // GET: RecipeTags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,36 +130,35 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipes
-                .Include(r => r.Author)
-                .Include(r => r.Category)
+            var recipeTag = await _context.RecipeTags
+                .Include(r => r.Teg)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (recipe == null)
+            if (recipeTag == null)
             {
                 return NotFound();
             }
 
-            return View(recipe);
+            return View(recipeTag);
         }
 
-        // POST: Recipes/Delete/5
+        // POST: RecipeTags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe != null)
+            var recipeTag = await _context.RecipeTags.FindAsync(id);
+            if (recipeTag != null)
             {
-                _context.Recipes.Remove(recipe);
+                _context.RecipeTags.Remove(recipeTag);
             }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecipeExists(int id)
+        private bool RecipeTagExists(int id)
         {
-            return _context.Recipes.Any(e => e.ID == id);
+            return _context.RecipeTags.Any(e => e.ID == id);
         }
     }
 }
-
