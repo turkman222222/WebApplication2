@@ -11,7 +11,7 @@ namespace WebApplication2.Models
         public int CategoryID { get; set; }
         public int AuthorID { get; set; }
         public TimeSpan CookingTime { get; set; }
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
 
         public Category Category { get; set; } // Связь с категорией
         public Author Author { get; set; } // Связь с автором

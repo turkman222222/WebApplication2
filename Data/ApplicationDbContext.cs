@@ -6,11 +6,14 @@ namespace WebApplication2.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { }
-
         
+
+
+
         public DbSet<Author> IDAuthor { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
