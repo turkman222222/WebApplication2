@@ -1,22 +1,28 @@
-﻿@model IEnumerable<WebApplication2.Models.Category>
+﻿@model IEnumerable<WebApplication2.Models.RecipeIngredient>
 
 @{
-    ViewData["Title"] = "Список категорий";
+    ViewData["Title"] = "Список ингредиентов рецептов";
 }
 
-<h1 class="mt-4 text-center text-primary">@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p class="text-center">
-    <a class="btn btn-success" asp-action="Create">Создать новую категорию</a>
+<p>
+    <a class="btn btn-success" asp-action="Create">Создать новый ингредиент</a>
 </p>
 
-<table class="table table-striped table-bordered text-center mt-3">
+<table class="table table-striped table-bordered text-center">
     <thead class="table-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.First().CategoryName)
+                @Html.DisplayNameFor(model => model.First().Quantity)
             </th>
-            <th class="text-center">Действия</th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Recipe.RecipeName) <!-- Предполагается наличие свойства RecipeName -->
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Ingredient.IngredientName) <!-- Предполагается наличие свойства IngredientName -->
+            </th>
+            <th>Действия</th>
         </tr>
     </thead>
     <tbody>
@@ -24,12 +30,18 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
+                    @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
-                <td class="text-center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recipe.RecipeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ingredient.IngredientName)
+                </td>
+                <td>
                     <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.ID">Редактировать</a>
                     <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ID">Детали</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.ID" onclick="return confirm('Вы уверены, что хотите удалить эту категорию?');">Удалить</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.ID" onclick="return confirm('Вы уверены, что хотите удалить этот элемент?');">Удалить</a>
                 </td>
             </tr>
         }

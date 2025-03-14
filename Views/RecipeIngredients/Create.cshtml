@@ -1,0 +1,68 @@
+﻿@model WebApplication2.Models.RecipeIngredient
+
+@{
+    ViewData["Title"] = "Создание нового ингредиента для рецепта";
+}
+
+<h1>Создание нового ингредиента для рецепта</h1>
+
+<h4>Ингредиент рецепта</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="RecipeID" class="control-label">Выберите рецепт:</label>
+                <select asp-for="RecipeID" class="form-control" asp-items="ViewBag.RecipeID"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IngredientID" class="control-label">Выберите ингредиент:</label>
+                <select asp-for="IngredientID" class="form-control" asp-items="ViewBag.IngredientID"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label">Количество:</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Светлый фон для всего тела */
+        color: #343a40; /* Темный текст */
+        font-family: Arial, sans-serif; /* Шрифт */
+    }
+
+    h1 {
+        color: #007bff; /* Цвет заголовка */
+        text-align: center; /* Центрирование заголовка */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Отступ между элементами формы */
+    }
+
+    .btn {
+        margin-top: 10px; /* Отступ сверху для кнопок */
+    }
+</style>
