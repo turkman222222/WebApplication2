@@ -1,8 +1,70 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Каталог Рецептов";
 }
 
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color:aqua;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%); /* Градиент */
+        background-size: cover;
+        background-position: center;
+        color: #333; /* Темный цвет текста */
+    }
+
+    .text-center {
+        text-align: center;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+        border-radius: 20px; /* Закругленные углы */
+        margin: 80px auto;
+        max-width: 800px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Тень */
+        border: 2px solid #ced4da; /* Светлая рамка */
+    }
+
+    .display-4 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #28a745; /* Зеленый цвет для заголовка */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Тень для текста */
+    }
+
+    p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    .recipe-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-top: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Добро пожаловать в Каталог Рецептов!</h1>
+    <p>Найдите вдохновение для новых кулинарных шедевров.</p>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="Index">
+        <i ></i> Рецепты
+    </a>
+    
+    
+
+    <!-- Пример изображения рецепта (замените на свой URL) -->
+    <img src="https://i.ytimg.com/vi/LbDv38A2kuY/maxresdefault.jpg" alt="Фотография блюда" class="recipe-image">
+
 </div>
