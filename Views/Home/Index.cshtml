@@ -7,7 +7,7 @@
         font-family: 'Arial', sans-serif;
         margin: 0;
         padding: 0;
-        background-color:aqua;
+        background-color: aqua;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%); /* Градиент */
         background-size: cover;
         background-position: center;
@@ -25,6 +25,24 @@
         border: 2px solid #ced4da; /* Светлая рамка */
     }
 
+    .nav-links {
+        display: flex; /* Используем Flexbox для размещения в строку */
+        justify-content: center; /* Центрируем ссылки */
+        flex-wrap: wrap; /* Позволяем переносить ссылки на следующую строку, если не хватает места */
+        margin: 20px 0; /* Отступ сверху и снизу */
+    }
+
+    .nav-link {
+        margin: 0 15px; /* Отступы между ссылками */
+        color: #000; /* Черный цвет текста для ссылок */
+        text-decoration: none;
+        font-weight: bold; /* Жирный текст для ссылок */
+    }
+
+        .nav-link:hover {
+            text-decoration: underline; /* Подчеркивание при наведении */
+        }
+
     .display-4 {
         font-size: 3rem;
         margin-bottom: 15px;
@@ -36,15 +54,6 @@
         font-size: 1.1rem;
         line-height: 1.7;
     }
-
-    a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-        a:hover {
-            text-decoration: underline;
-        }
 
     .recipe-image {
         max-width: 100%;
@@ -58,13 +67,17 @@
 <div class="text-center">
     <h1 class="display-4">Добро пожаловать в Каталог Рецептов!</h1>
     <p>Найдите вдохновение для новых кулинарных шедевров.</p>
-    <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="Index">
-        <i ></i> Рецепты
-    </a>
-    
-    
+
+    <div class="nav-links">
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Правила</a>
+        <a class="nav-link" asp-area="" asp-controller="Authors" asp-action="Index">Авторы</a>
+        <a class="nav-link" asp-area="" asp-controller="Recipes" asp-action="Index">Рецепты</a>
+        <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Категории</a>
+        <a class="nav-link" asp-area="" asp-controller="CokingSteps" asp-action="Index">Шаги приготовления</a>
+    </div>
 
     <!-- Пример изображения рецепта (замените на свой URL) -->
     <img src="https://i.ytimg.com/vi/LbDv38A2kuY/maxresdefault.jpg" alt="Фотография блюда" class="recipe-image">
-
 </div>
+

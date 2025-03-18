@@ -7,7 +7,7 @@
 <h1 class="mt-4 text-center text-danger">@ViewData["Title"]</h1>
 
 <h3 class="text-center">Вы уверены, что хотите удалить этот шаг?</h3>
-<div>
+<div class="container mt-5">
     <h4 class="text-center">Информация о шаге приготовления</h4>
     <hr />
     <dl class="row">
@@ -33,7 +33,7 @@
 
     <form asp-action="Delete" method="post" class="text-center">
         <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Удалить" class="btn btn-danger" />
+        <input type="submit" value="Удалить" class="btn btn-danger btn-lg" />
         <a class="btn btn-secondary" asp-action="Index">Назад к списку</a>
     </form>
 </div>
@@ -60,7 +60,34 @@
         margin-bottom: 10px; /* Отступ снизу */
     }
 
+    .container {
+        background-color: #ffffff; /* Белый фон для контейнера */
+        padding: 30px; /* Отступ внутри контейнера */
+        border-radius: 10px; /* Закругленные углы */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+    }
+
     .btn {
         margin: 0 5px; /* Отступ между кнопками */
+        padding: 10px 20px; /* Увеличенный размер кнопок */
+        font-size: 16px; /* Увеличенный размер шрифта */
     }
+
+    .btn-danger {
+        background-color: #dc3545; /* Красный цвет кнопки "Удалить" */
+        border: none; /* Убираем рамку */
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333; /* Темнее при наведении */
+        }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Цвет кнопки "Назад" */
+        border: none; /* Убираем рамку */
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Темнее при наведении */
+        }
 </style>

@@ -1,60 +1,115 @@
 ﻿@model WebApplication2.Models.Recipe
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создать рецепт";
 }
 
-<h1>Create</h1>
+<h1 class="mt-4 text-center text-primary">@ViewData["Title"]</h1>
 
-<h4>Recipe</h4>
+<h4 class="text-center">Создание нового рецепта</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RecipeName" class="control-label"></label>
-                <input asp-for="RecipeName" class="form-control" />
-                <span asp-validation-for="RecipeName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Discription" class="control-label"></label>
-                <input asp-for="Discription" class="form-control" />
-                <span asp-validation-for="Discription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryID" class="control-label"></label>
-                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
-                <span asp-validation-for="CategoryID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AuthorID" class="control-label"></label>
-                <select asp-for="AuthorID" class="form-control" asp-items="ViewBag.AuthorID"></select>
-                <span asp-validation-for="AuthorID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CookingTime" class="control-label"></label>
-                <input asp-for="CookingTime" class="form-control" />
-                <span asp-validation-for="CookingTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="imageFile">Upload Image</label>
-                <input type="file" name="imageFile" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-
-
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="RecipeName" class="control-label"></label>
+                    <input asp-for="RecipeName" class="form-control" />
+                    <span asp-validation-for="RecipeName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Discription" class="control-label"></label>
+                    <input asp-for="Discription" class="form-control" />
+                    <span asp-validation-for="Discription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryID" class="control-label"></label>
+                    <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AuthorID" class="control-label"></label>
+                    <select asp-for="AuthorID" class="form-control" asp-items="ViewBag.AuthorID"></select>
+                    <span asp-validation-for="AuthorID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CookingTime" class="control-label"></label>
+                    <input asp-for="CookingTime" class="form-control" />
+                    <span asp-validation-for="CookingTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="imageFile">Загрузить изображение</label>
+                    <input type="file" name="imageFile" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" value="Создать" class="btn btn-primary btn-lg" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="text-center mt-3">
+    <a class="btn btn-secondary" asp-action="Index">Назад к списку</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+<style>
+    body {
+        background-color: #e9ecef; /* Светлый фон для всего тела */
+        color: #343a40; /* Темный текст */
+        font-family: Arial, sans-serif; /* Шрифт */
+    }
+
+    h1 {
+        color: #007bff; /* Цвет заголовка */
+        text-align: center; /* Центрирование заголовка */
+    }
+
+    h4 {
+        text-align: center; /* Центрирование подзаголовка */
+        margin-bottom: 20px; /* Отступ снизу */
+    }
+
+    .container {
+        background-color: #ffffff; /* Белый фон для контейнера */
+        padding: 30px; /* Отступ внутри контейнера */
+        border-radius: 10px; /* Закругленные углы */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Отступ между полями формы */
+    }
+
+    .btn {
+        margin: 0 5px; /* Отступ между кнопками */
+        padding: 10px 20px; /* Увеличенный размер кнопок */
+        font-size: 16px; /* Увеличенный размер шрифта */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Цвет кнопки "Создать" */
+        border: none; /* Убираем рамку */
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Темнее при наведении */
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none; /* Убираем рамку */
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Темнее при наведении */
+        }
+</style>

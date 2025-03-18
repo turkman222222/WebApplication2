@@ -23,8 +23,10 @@
             </dl>
             <form asp-action="Delete" class="text-center">
                 <input type="hidden" asp-for="ID" />
-                <button type="submit" class="btn btn-danger btn-lg">Удалить</button>
-                <a asp-action="Index" class="btn btn-secondary btn-lg">Назад к списку</a>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-danger btn-lg">Удалить</button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Назад к списку</a>
+                </div>
             </form>
         </div>
     </div>
@@ -33,6 +35,7 @@
 <style>
     body {
         background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
     }
 
     h1 {
@@ -41,9 +44,9 @@
 
     .container {
         background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .card {
@@ -51,6 +54,25 @@
     }
 
     .btn {
-        margin: 5px;
+        margin: 10px; /* Увеличен отступ между кнопками */
+        width: 150px; /* Фиксированная ширина кнопок */
     }
+
+    .btn-danger {
+        background-color: #dc3545; /* Основной цвет для кнопки удаления */
+        border: none; /* Убираем рамку */
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333; /* Темнее при наведении */
+        }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Основной цвет для кнопки "Назад" */
+        border: none; /* Убираем рамку */
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Темнее при наведении */
+        }
 </style>
