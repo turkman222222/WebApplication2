@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
 using WebApplication2.Models;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class RecipesController : Controller
@@ -17,10 +18,26 @@ public class RecipesController : Controller
     }
 
     // GET: Recipes
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchString, int? categoryId)
     {
-        var applicationDbContext = _context.Recipes.Include(r => r.Author).Include(r => r.Category);
-        return View(await applicationDbContext.ToListAsync());
+        var recipes = _context.Recipes.Include(r => r.Author).Include(r => r.Category).AsQueryable();
+
+        // Фильтрация по категории
+        if (categoryId.HasValue)
+        {
+            recipes = recipes.Where(r => r.CategoryID == categoryId);
+        }
+
+        // Поиск по названию
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            recipes = recipes.Where(r => r.RecipeName.Contains(searchString));
+        }
+
+        // Получаем список категорий для выпадающего списка
+        ViewBag.CategoryID = await _context.Categories.ToListAsync();
+
+        return View(await recipes.ToListAsync());
     }
 
     // GET: Recipes/Details/5
@@ -56,20 +73,18 @@ public class RecipesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("ID,RecipeName,Discription,CategoryID,AuthorID,CookingTime")] Recipe recipe, IFormFile imageFile)
     {
-        
-            if (imageFile != null && imageFile.Length > 0)
+        if (imageFile != null && imageFile.Length > 0)
+        {
+            using (var memoryStream = new MemoryStream())
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await imageFile.CopyToAsync(memoryStream);
-                    recipe.Image = memoryStream.ToArray(); // Сохраняем изображение как массив байтов
-                }
+                await imageFile.CopyToAsync(memoryStream);
+                recipe.Image = memoryStream.ToArray(); // Сохраняем изображение как массив байтов
             }
+        }
 
-            _context.Add(recipe);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-
+        _context.Add(recipe);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
 
         ViewData["AuthorID"] = new SelectList(_context.IDAuthor, "ID", "Authorname", recipe.AuthorID);
         ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "CategoryName", recipe.CategoryID);
@@ -149,7 +164,7 @@ public class RecipesController : Controller
         var recipe = await _context.Recipes
             .Include(r => r.Author)
             .Include(r => r.Category)
-                        .FirstOrDefaultAsync(m => m.ID == id);
+            .FirstOrDefaultAsync(m => m.ID == id);
         if (recipe == null)
         {
             return NotFound();
@@ -173,18 +188,15 @@ public class RecipesController : Controller
     {
         return _context.Recipes.Any(e => e.ID == id);
     }
-
-    // Метод для получения изображения по ID рецепта
-    public async Task<IActionResult> GetImage(int id)
+    public IActionResult GetImage(int id)
     {
-        var recipe = await _context.Recipes.FindAsync(id);
-        if (recipe == null || recipe.Image == null)
+        var recipe = _context.Recipes.Find(id);
+        if (recipe != null && recipe.Image != null)
         {
-            return NotFound();
+            return File(recipe.Image, "image/jpeg"); // Убедитесь, что тип изображения соответствует вашему
         }
-        return File(recipe.Image, "image/jpeg"); // Укажите правильный MIME-тип
+        return NotFound();
     }
+
+
 }
-
-
-

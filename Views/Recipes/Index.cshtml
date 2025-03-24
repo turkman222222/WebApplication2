@@ -1,16 +1,4 @@
-﻿@model IEnumerable<WebApplication2.Models.Recipe>
-
-@{
-    ViewData["Title"] = "Список рецептов";
-}
-
-<h1>@ViewData["Title"]</h1>
-
-<p>
-    <a class="btn btn-success" asp-action="Create">Создать новый рецепт</a>
-</p>
-
-<table class="table table-striped table-bordered text-center">
+﻿<table class="table table-striped table-bordered text-center">
     <thead class="table-dark">
         <tr>
             <th>
@@ -20,7 +8,9 @@
                 @Html.DisplayNameFor(model => model.First().Discription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().CookingTime)
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.CookingTimeSortParam" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-categoryId="@ViewData["CurrentCategory"]">
+                    @Html.DisplayNameFor(model => model.First().CookingTime)
+                </a>
             </th>
             <th>
                 Изображение
@@ -42,7 +32,7 @@
                     @Html.DisplayFor(modelItem => item.RecipeName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Discription)
+                    <div style="white-space: pre-wrap;">@item.Discription</div> <!-- Перенос на новую строку -->
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CookingTime)
@@ -68,31 +58,3 @@
         }
     </tbody>
 </table>
-
-<style>
-    body {
-        background-color: #e9ecef; /* Светлый фон для всего тела */
-        color: #343a40; /* Темный текст */
-        font-family: Arial, sans-serif; /* Шрифт */
-    }
-
-    h1 {
-        color: #007bff; /* Цвет заголовка */
-        text-align: center; /* Центрирование заголовка */
-    }
-
-    .table {
-        margin-top: 20px;
-        background-color: #ffffff; /* Белый фон для таблицы */
-        border-radius: 8px; /* Закругленные углы */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Небольшая тень */
-    }
-
-        .table th, .table td {
-            vertical-align: middle; /* Вертикальное выравнивание по центру */
-        }
-
-    .btn {
-        margin-right: 5px; /* Отступ между кнопками */
-    }
-</style>
